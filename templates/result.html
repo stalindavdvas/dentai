@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center text-success">Resultados del Análisis</h1>
+        <div class="row mt-4">
+            <div class="col-md-6 text-center">
+                <h4>Imagen Original</h4>
+                <img src="{{ uploaded_image }}" class="img-fluid border" alt="Imagen Original">
+            </div>
+            <div class="col-md-6 text-center">
+                <h4>Resultados del Modelo</h4>
+                <img src="{{ result_image }}" class="img-fluid border" alt="Resultados">
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-secondary">Subir otra imagen</a>
+        </div>
+    </div>
+</body>
+</html>
