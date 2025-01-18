@@ -141,18 +141,25 @@ def upload_file():
             # Procesar imagen y obtener detecciones
             result_path, detected_diseases = process_image(ORIGINAL_IMAGE)
 
-            # Generar recomendaciones para cada enfermedad detectada
-            for disease, confidence in detected_diseases:
-                recommendation = get_treatment_recommendation(disease.lower(), confidence)
-                timestamp = datetime.now().strftime('%H:%M')
-                socketio.emit('message', {
-                    'msg': f"Detección: {disease} (Confianza: {confidence:.2f})\n\n{recommendation}",
-                    'timestamp': timestamp
-                })
+            # Preparar resultados de detección
+            detection_results = []
+            if detected_diseases:
+                for disease, confidence in detected_diseases:
+                    detection_results.append({
+                        'disease': disease,
+                        'confidence': f"{confidence * 100:.1f}%"
+                    })
+                    recommendation = get_treatment_recommendation(disease.lower(), confidence)
+                    timestamp = datetime.now().strftime('%H:%M')
+                    socketio.emit('message', {
+                        'msg': f"Detección: {disease} (Confianza: {confidence:.2f})\n\n{recommendation}",
+                        'timestamp': timestamp
+                    })
 
             return jsonify({
                 'original': '/static/uploads/original.jpg',
                 'result': '/static/uploads/result.jpg',
+                'detections': detection_results if detection_results else [],
                 'success': True
             })
 
