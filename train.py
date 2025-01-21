@@ -143,7 +143,7 @@ generator = data_generator(image_annotations, DATASET_DIR, BATCH_SIZE)
 history = model.fit(
     generator,
     steps_per_epoch=steps_per_epoch,
-    epochs=10
+    epochs=1
 )
 
 # Guardar modelo
