@@ -44,9 +44,9 @@ with custom_object_scope({'iou_metric': iou_metric}):
 # Función para preprocesar la imagen
 def preprocess_image(image_path):
     original_img = cv2.imread(image_path)
-    img_resized = cv2.resize(original_img, (224, 224))
-    img_array = img_to_array(img_resized) / 255.0
-    img_array = np.expand_dims(img_array, axis=0)
+    img_resized = cv2.resize(original_img, (512, 512))  # Ajustar a 512x512
+    img_array = img_to_array(img_resized) / 255.0  # Normalizar entre 0 y 1
+    img_array = np.expand_dims(img_array, axis=0)  # Añadir dimensión de batch
     return original_img, img_array
 
 # Función para realizar la predicción
