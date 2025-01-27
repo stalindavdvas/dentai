@@ -89,7 +89,7 @@ def predict(image_path):
 # Ruta para servir el HTML (página de inicio)
 @app.route('/')
 def index():
-    return render_template('inicio.html')
+    return render_template('inicio1.html')
 
 # Ruta para manejar la carga de la imagen
 @app.route('/upload', methods=['POST'])

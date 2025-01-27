@@ -16,7 +16,7 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 # Configuración del modelo
 IMG_SIZE = (512, 512)  # Tamaño de entrada ajustado
 BATCH_SIZE = 16
-EPOCHS = 2
+EPOCHS = 100
 CLASSES = ["cancer", "caries", "gingivitis", "perdidos", "ulceras"]
 NUM_CLASSES = len(CLASSES)
 
