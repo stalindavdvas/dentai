@@ -10,7 +10,10 @@ from tensorflow.keras.utils import custom_object_scope
 from werkzeug.utils import secure_filename
 from datetime import datetime
 import tensorflow as tf
+from pathlib import PosixPath, WindowsPath
+import pathlib
 
+pathlib.PosixPath = pathlib.WindowsPath
 app = Flask(__name__)
 socketio = SocketIO(app)
 

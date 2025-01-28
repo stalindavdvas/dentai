@@ -1,130 +1,92 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procesamiento de Imágenes Dentales</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Resultados de Detección</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .image-section {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        .results {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .results ul {
+            list-style: none;
+            padding: 0;
+        }
+        .results li {
+            background: #fff;
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold text-center mb-8">Procesamiento de Imágenes Dentales</h1>
+<body>
+    <div class="container">
+        <h1>Resultados de Detección</h1>
 
-        <!-- Formulario para subir la imagen -->
-        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-            <form id="uploadForm" enctype="multipart/form-data">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="file">Subir imagen:</label>
-                    <input type="file" name="file" id="file" class="border p-2 w-full" accept="image/*" required>
-                </div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Procesar Imagen</button>
-            </form>
+        <!-- Imagen Original -->
+        <div class="image-section">
+            <h2>Imagen Original</h2>
+            <img src="path/to/original_image.jpg" alt="Imagen Original">
         </div>
 
-        <!-- Barra de progreso -->
-        <div id="progressBar" class="hidden bg-white p-6 rounded-lg shadow-md mb-8">
-            <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                <div id="progress" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+        <!-- Resultados del modelo YOLO -->
+        <div class="image-section">
+            <h2>Resultados del Modelo YOLO</h2>
+            <img src="path/to/yolo_result.jpg" alt="Resultado YOLO">
+            <div class="results">
+                <h3>Enfermedades Detectadas:</h3>
+                <ul>
+                    <li>Enfermedad 1 - Confianza: 90%</li>
+                    <li>Enfermedad 2 - Confianza: 85%</li>
+                </ul>
             </div>
         </div>
 
-        <!-- Resultados -->
-        <div id="results" class="hidden">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Resultado YOLO -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold mb-4">Resultado YOLO</h2>
-                    <img id="resultYolo" src="" alt="Resultado YOLO" class="w-full h-auto mb-4">
-                    <div id="detectionsYolo" class="text-gray-700"></div>
-                </div>
-
-                <!-- Resultado Modelo Personalizado -->
-                <div class="bg-white p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-bold mb-4">Resultado Modelo Personalizado</h2>
-                    <img id="resultCustom" src="" alt="Resultado Modelo Personalizado" class="w-full h-auto mb-4">
-                    <div id="detectionsCustom" class="text-gray-700"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chat de recomendaciones -->
-        <div id="chat" class="bg-white p-6 rounded-lg shadow-md mt-8">
-            <h2 class="text-xl font-bold mb-4">Recomendaciones</h2>
-            <div id="messages" class="h-48 overflow-y-auto mb-4">
-                <!-- Mensajes de recomendaciones -->
+        <!-- Resultados del modelo Personalizado -->
+        <div class="image-section">
+            <h2>Resultados del Modelo Personalizado</h2>
+            <img src="path/to/custom_model_result.jpg" alt="Resultado Modelo Personalizado">
+            <div class="results">
+                <h3>Enfermedades Detectadas:</h3>
+                <ul>
+                    <li>Enfermedad 1 - Confianza: 92%</li>
+                    <li>Enfermedad 3 - Confianza: 80%</li>
+                </ul>
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        socket.on('message', function(data) {
-            const messages = document.getElementById('messages');
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('mb-2');
-            messageElement.innerHTML = `<span class="text-gray-500">[${data.timestamp}]</span> ${data.msg}`;
-            messages.appendChild(messageElement);
-            messages.scrollTop = messages.scrollHeight;
-        });
-
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const fileInput = document.getElementById('file');
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-
-            const progressBar = document.getElementById('progressBar');
-            const progress = document.getElementById('progress');
-            const results = document.getElementById('results');
-            const resultYolo = document.getElementById('resultYolo');
-            const resultCustom = document.getElementById('resultCustom');
-            const detectionsYolo = document.getElementById('detectionsYolo');
-            const detectionsCustom = document.getElementById('detectionsCustom');
-
-            progressBar.classList.remove('hidden');
-            results.classList.add('hidden');
-
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    progress.style.width = '100%';
-                    setTimeout(() => {
-                        progressBar.classList.add('hidden');
-                        results.classList.remove('hidden');
-
-                        resultYolo.src = data.result_yolo;
-                        resultCustom.src = data.result_custom;
-
-                        detectionsYolo.innerHTML = data.detections_yolo.map(detection => `
-                            <div class="mb-2">
-                                <strong>Enfermedad:</strong> ${detection.disease}<br>
-                                <strong>Confianza:</strong> ${detection.confidence}
-                            </div>
-                        `).join('');
-
-                        detectionsCustom.innerHTML = data.detections_custom.map(detection => `
-                            <div class="mb-2">
-                                <strong>Enfermedad:</strong> ${detection.disease}<br>
-                                <strong>Confianza:</strong> ${detection.confidence}
-                            </div>
-                        `).join('');
-                    }, 500);
-                } else {
-                    alert(data.error);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Hubo un error al procesar la imagen.');
-            });
-        });
-    </script>
 </body>
 </html>
